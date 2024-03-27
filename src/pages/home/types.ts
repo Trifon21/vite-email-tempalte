@@ -1,3 +1,4 @@
 export interface IEmail{
-  text: string
+  text: string,
+  id: string
 }

@@ -8,4 +8,21 @@
     padding: 1rem;
     margin-bottom: 2rem;
   }
+
+  .news {
+    position: relative;
+
+    >button{
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      transition: color 0.4s ease-in-out;
+      &:hover{
+        color: #646cff;
+      }
+    }
+  }
 }

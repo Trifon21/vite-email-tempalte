@@ -1,7 +1,8 @@
 import styles from './EmailList.module.scss'
-import {useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {emailService} from "../../services/email.service.ts";
 import parse from 'html-react-parser';
+import {CircleX} from "lucide-react";
 
 function EmailList() {
   const {data} = useQuery({
@@ -9,12 +10,27 @@ function EmailList() {
     queryFn: () => emailService.getEmails()
   })
 
-    return <div className={styles.list}>
+  const queryClient = useQueryClient()
+
+  const {mutate} = useMutation({
+    mutationKey: ['delete email'],
+    mutationFn: (emailId: string) => emailService.deleteEmail(emailId),
+    onSuccess: () => {
+      queryClient.refetchQueries({
+        queryKey: ['email list']
+      })
+    }
+  })
+
+  return <div className={styles.list}>
       {data?.map(email => (
-        <div key={email.text}>
-          {parse(email.text)}
-        </div>
-      ))}
+          <div key={email.id} className={styles.news}>
+            {parse(email.text)}
+            <button>
+              <CircleX size={16} onClick={() => mutate(email.id)}/>
+            </button>
+          </div>
+        ))}
     </div>
 }
 

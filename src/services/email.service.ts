@@ -16,6 +16,11 @@ class EmailService{
     });
     return data;
   }
+
+  async deleteEmail(emailId: string){
+    const {data} = await axios.delete(this.URL + '/' + emailId);
+    return data;
+  }
 }
 
 export  const emailService = new EmailService()
